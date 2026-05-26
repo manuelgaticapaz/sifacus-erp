@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIFACUS-ERP | Panel Profesional</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 30px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        h1, h2, h3, h4 { color: #2c3e50; margin-top: 0; }
+        h1 { border-bottom: 3px solid #e74c3c; padding-bottom: 10px; margin-bottom: 30px;}
+        h2 { font-size: 20px; margin-bottom: 20px; }
+
+        /* LAYOUT PRINCIPAL: Grid y Flexbox para evitar que se vea "rejutnado" */
+        .container { display: flex; flex-direction: column; gap: 30px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+
+        .panel { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
+        .card { background: #fdfdfd; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; }
+        
+        .badge { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; margin-left: 10px; }
+
+        .btn {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .btn:hover { background-color: #2980b9; }
+        .btn-success { background-color: #27ae60; }
+        .btn-success:hover { background-color: #219150; }
+
+        input, select {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-row { display: flex; gap: 10px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th { background-color: #2c3e50; color: white; text-transform: uppercase; font-size: 13px; }
+        tr:hover { background-color: #f1f1f1; }
+
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+            font-size: 14px;
+        }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        hr { border: 0; border-top: 1px solid #eaeaea; margin: 25px 0; }
+    </style>
+</head>
+
+<body>
+    <h1>🚀 SIFACUS-ERP <span style="font-size: 16px; color: #7f8c8d; font-weight: normal;">| Gestión Integral de Base de Datos</span></h1>
+
+    <div class="container">
+
+        <div class="grid-2">
+            <!-- SECCIÓN 1: CAJA / VENTAS -->
+            <div class="panel">
+                <h2>🛒 Terminal de Punto de Venta <span class="badge">sp_registrar_venta</span></h2>
+                <div class="card" style="margin-bottom: 15px;">
+                    <h4>1. Preparar Pedido</h4>
+                    <form id="formAgregarCarrito" class="form-row">
+                        <input type="number" id="cart_prod_id" placeholder="ID Prod." required>
+                        <input type="number" id="cart_cant" placeholder="Cant." required>
+                        <button type="submit" class="btn" style="white-space: nowrap; margin-bottom:10px;">+ Añadir</button>
+                    </form>
+                    <table style="margin-top: 0;">
+                        <thead><tr><th>Producto</th><th>Precio</th><th>Cant.</th><th>Subtotal</th><th>Acción</th></tr></thead>
+                        <tbody id="bodyCarrito">
+                            <tr><td colspan="5" style="text-align:center; color:#999;">El pedido está vacío</td></tr>
+                        </tbody>
+                        <tfoot id="footCarrito" style="display:none; font-weight:bold; background:#e8f4f8;">
+                            <tr><td colspan="3" style="text-align:right;">TOTAL APROX:</td><td colspan="2" id="cart_total">Q.0.00</td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="card">
+                    <h4>2. Facturar Transacción</h4>
+                    <form id="formVenta">
+                        <input type="number" id="v_cliente_id" placeholder="ID Cliente (Ej: 1)" required>
+                        <input type="number" id="v_usuario_id" placeholder="ID Usuario/Cajero (Ej: 1)" required>
+                        <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 10px;">Procesar Venta Transaccional</button>
+                    </form>
+                    <div id="msgVenta" class="alert"></div>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN 2: HERRAMIENTAS ADICIONALES -->
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                <!-- VISOR DE FACTURA -->
+                <div class="panel">
+                    <h2>🧾 Visor de Facturas y Comprobantes</h2>
+                    <form id="formFactura" class="form-row">
+                        <input type="text" id="f_referencia" placeholder="Correlativo (Ej: FAC-00000001) o ID" required>
+                        <button type="submit" class="btn" style="white-space: nowrap;">Buscar</button>
+                    </form>
+                    <div id="resultadoFactura" style="display: none; background: #fff; border: 1px dashed #ccc; padding: 20px; border-radius: 5px; margin-top: 15px;"></div>
+                    <div id="msgFactura" class="alert"></div>
+                </div>
+
+                <!-- AUDITORÍA Y PRECIOS -->
+                <div class="panel">
+                    <h2>📈 Modificar Precio <span class="badge">tr_auditar_cambio_precio</span></h2>
+                    <form id="formPrecio">
+                        <div class="form-row">
+                            <input type="number" id="p_producto_id" placeholder="ID Prod." required>
+                            <input type="number" step="0.01" id="p_nuevo_precio" placeholder="Nuevo Precio (Q.)" required>
+                            <input type="number" id="p_usuario_id" placeholder="Tu Usuario ID" required>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%;">Disparar Trigger de Auditoría</button>
+                    </form>
+                    <div id="msgPrecio" class="alert"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: GESTIÓN DE CATÁLOGOS E INVENTARIO -->
+        <div class="panel">
+            <h2>🛠️ Operaciones y Catálogos (CRUD)</h2>
+            <div class="grid-3">
+                <!-- CATEGORÍAS CRUD -->
+                <div class="card">
+                    <h4>📂 Categorías</h4>
+                    <select id="cat_tipo" onchange="alternarCamposCrud('cat')">
+                        <option value="crear">Crear Categoría</option><option value="editar">Editar Categoría</option><option value="eliminar">Eliminar Categoría</option>
+                    </select>
+                    <form id="formCategorias">
+                        <input type="number" id="cat_id" placeholder="ID Categoría" style="display:none; background:#fff3cd;">
+                        <div id="cat_campos">
+                            <input type="text" id="cat_nombre" placeholder="Nombre">
+                            <input type="text" id="cat_desc" placeholder="Descripción">
+                        </div>
+                        <button type="submit" class="btn btn-success" style="width: 100%;" id="cat_btn">Crear</button>
+                    </form>
+                    <div id="msg_categorias" class="alert"></div>
+                </div>
+
+                <!-- CLIENTES CRUD -->
+                <div class="card">
+                    <h4>👥 Clientes</h4>
+                    <select id="cli_tipo" onchange="alternarCamposCrud('cli')">
+                        <option value="crear">Registrar Cliente</option><option value="editar">Editar Cliente</option><option value="eliminar">Eliminar Cliente</option>
+                    </select>
+                    <form id="formClientes">
+                        <input type="number" id="cli_id" placeholder="ID Cliente" style="display:none; background:#fff3cd;">
+                        <div id="cli_campos">
+                            <input type="text" id="cli_rut" placeholder="RUT / DNI">
+                            <input type="text" id="cli_nombre" placeholder="Nombre Completo">
+                            <input type="email" id="cli_email" placeholder="Correo Electrónico">
+                            <div class="form-row">
+                                <input type="text" id="cli_tel" placeholder="Teléfono">
+                                <select id="cli_clas"><option value="BRONCE">BRONCE</option><option value="PLATA">PLATA</option><option value="ORO">ORO</option></select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="width: 100%;" id="cli_btn">Registrar</button>
+                    </form>
+                    <div id="msg_clientes" class="alert"></div>
+                </div>
+
+                <!-- PRODUCTOS CRUD -->
+                <div class="card">
+                    <h4>📦 Productos e Inventario</h4>
+                    <select id="c_tipo" onchange="alternarCamposCrud('c')">
+                        <option value="crear">Crear Producto</option><option value="editar">Editar Producto</option><option value="eliminar">Desactivar Producto</option>
+                    </select>
+                    <form id="formProductos">
+                        <input type="number" id="c_id" placeholder="ID Producto" style="display:none; background:#fff3cd;">
+                        <div id="c_campos">
+                            <div class="form-row"><input type="text" id="c_sku" placeholder="SKU"><input type="text" id="c_nombre" placeholder="Nombre"></div>
+                            <input type="text" id="c_desc" placeholder="Descripción breve">
+                    <div class="form-row">
+                                <input type="number" step="0.01" id="c_compra" placeholder="Costo (Q.)">
+                                <input type="number" step="0.01" id="c_venta" placeholder="Precio (Q.)">
+                            </div>
+                            <div class="form-row">
+                                <input type="number" id="c_stock_act" placeholder="Stock Act."><input type="number" id="c_stock_min" placeholder="Stock Min."><input type="number" id="c_cat" placeholder="ID Cat.">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="width: 100%;" id="c_btn">Crear</button>
+                    </form>
+                    <div id="msg_productos" class="alert"></div>
+                    
+                    <hr style="margin: 15px 0;">
+                    <h5 style="margin:0 0 10px 0; color:#2c3e50;">🚚 Reabastecer <span class="badge" style="margin:0;">sp_reabastecer</span></h5>
+                    <form id="formReabastecer" class="form-row">
+                        <input type="number" id="re_producto_id" placeholder="ID" required>
+                        <input type="number" id="re_cantidad" placeholder="Cant." required>
+                        <input type="number" id="re_usuario_id" placeholder="User" required>
+                        <button type="submit" class="btn btn-success" style="white-space:nowrap;">Ingresar</button>
+                    </form>
+                    <div id="msgReabastecer" class="alert"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: REPORTES Y VISTAS ANALÍTICAS -->
+        <div class="panel">
+            <h2>📊 Reportes y Vistas Analíticas</h2>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+                <button class="btn" onclick="cargarDatos('/api/productos', 'Catálogo de Productos Activos')">📦 Ver Catálogo</button>
+                <button class="btn" onclick="cargarDatos('/api/productos/alertas-stock', 'vw_productos_bajo_stock_minimo')">⚠️ Alertas de Stock</button>
+                <button class="btn" onclick="cargarDatos('/api/clientes/top', 'vw_clientes_mas_activos')">🏆 Top Clientes</button>
+                <button class="btn" onclick="cargarDatos('/api/categorias', 'Categorías Existentes')">📂 Ver Categorías</button>
+                <button class="btn" onclick="cargarDatos('/api/clientes', 'Base de Clientes')">👥 Ver Clientes</button>
+            </div>
+            
+            <form id="formReporte" class="form-row" style="max-width: 500px;">
+                <input type="date" id="r_fecha_inicio" required>
+                <input type="date" id="r_fecha_fin" required>
+                <button type="submit" class="btn" style="white-space: nowrap;">Reporte sp_reporte_ventas_periodo</button>
+            </form>
+
+            <div id="resultado-vistas" style="margin-top: 20px; overflow-x: auto;">
+                <p style="color: #7f8c8d; font-style: italic;">Los resultados de las consultas aparecerán aquí.</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        function mostrarMensaje(divId, mensaje, esExito) {
+            const div = document.getElementById(divId);
+            div.style.display = 'block';
+            div.className = esExito ? 'alert alert-success' : 'alert alert-error';
+            div.innerHTML = mensaje;
+            setTimeout(() => div.style.display = 'none', 5000);
+        }
+
+        const contenidoDiv = document.getElementById('resultado-vistas');
+        async function cargarDatos(url, titulo) {
+            contenidoDiv.innerHTML = '<p>Cargando datos desde el servidor...</p>';
+            try {
+                const respuesta = await fetch(url);
+                const resultado = await respuesta.json();
+                if (!resultado.success) throw new Error(resultado.error || 'Error desconocido');
+                if (!resultado.data || resultado.data.length === 0) {
+                    contenidoDiv.innerHTML = `<h2>${titulo}</h2><p>No se encontraron registros en la base de datos.</p>`;
+                    return;
+                }
+                let html = `<h2>${titulo}</h2><table><thead><tr>`;
+                const columnas = Object.keys(resultado.data[0]);
+                columnas.forEach(col => html += `<th>${col.replace(/_/g, ' ')}</th>`);
+                html += '</tr></thead><tbody>';
+                resultado.data.forEach(fila => {
+                    html += '<tr>';
+                    columnas.forEach(col => {
+                        let val = fila[col] !== null ? fila[col] : '-';
+                        if(typeof val === 'string' && val.match(/^\d{4}-\d{2}-\d{2}T/)) val = new Date(val).toLocaleDateString();
+                        html += `<td>${val}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                contenidoDiv.innerHTML = html;
+            } catch (error) { contenidoDiv.innerHTML = `<div class="alert alert-error">Error al cargar datos: ${error.message}</div>`; }
+        }
+
+        // CARRITO Y VENTAS
+        let carritoVenta = [];
+        document.getElementById('formAgregarCarrito').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('cart_prod_id').value);
+            const cant = parseInt(document.getElementById('cart_cant').value);
+            try {
+                const res = await fetch('/api/productos');
+                const result = await res.json();
+                const prod = result.data.find(p => p.id === id);
+                if(!prod) return alert('El ID de producto no existe en BD o está inactivo.');
+                const precio = parseFloat(prod.precio_venta);
+                carritoVenta.push({ producto_id: id, nombre: prod.nombre, precio: precio, cantidad: cant, subtotal: precio * cant });
+                renderCarrito();
+                e.target.reset(); 
+            } catch (error) { alert('Error al contactar al servidor para validar producto.'); }
+        });
+
+        function renderCarrito() {
+            const tbody = document.getElementById('bodyCarrito');
+            const tfoot = document.getElementById('footCarrito');
+            if (carritoVenta.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999;">El pedido está vacío</td></tr>';
+                tfoot.style.display = 'none';
+                return;
+            }
+            tbody.innerHTML = '';
+            let total = 0;
+            carritoVenta.forEach((item, index) => {
+                total += item.subtotal;
+                tbody.innerHTML += `<tr><td>${item.nombre} <br><small style="color:#7f8c8d;">ID: ${item.producto_id}</small></td>
+                    <td>Q.${item.precio.toFixed(2)}</td><td>${item.cantidad}</td><td>Q.${item.subtotal.toFixed(2)}</td>
+                    <td><button type="button" class="btn" style="background:#e74c3c; padding:4px 8px; margin:0;" onclick="quitarDelCarrito(${index})">X</button></td></tr>`;
+            });
+            document.getElementById('cart_total').innerText = 'Q.' + total.toFixed(2);
+            tfoot.style.display = 'table-row-group';
+        }
+
+        function quitarDelCarrito(index) { carritoVenta.splice(index, 1); renderCarrito(); }
+
+        document.getElementById('formVenta').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (carritoVenta.length === 0) return mostrarMensaje('msgVenta', 'Agrega al menos 1 producto al carrito primero.', false);
+            const cliente_id = document.getElementById('v_cliente_id').value;
+            const usuario_id = document.getElementById('v_usuario_id').value;
+            const payloadDetalles = carritoVenta.map(i => ({ producto_id: i.producto_id, cantidad: i.cantidad }));
+            try {
+                const response = await fetch('/api/ventas', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cliente_id, usuario_id, detalles: payloadDetalles })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    mostrarMensaje('msgVenta', `¡Venta Exitosa! SP y Triggers ejecutados. Correlativo: <b>${data.data.correlativo}</b>`, true);
+                    e.target.reset(); carritoVenta = []; renderCarrito(); 
+                } else mostrarMensaje('msgVenta', `Error de BD: ${data.error}`, false);
+            } catch (err) { mostrarMensaje('msgVenta', 'Error de conexión con el servidor.', false); }
+        });
+
+        // TRIGGER DE PRECIOS
+        document.getElementById('formPrecio').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('p_producto_id').value;
+            const nuevo_precio = document.getElementById('p_nuevo_precio').value;
+            const usuario_id = document.getElementById('p_usuario_id').value;
+            try {
+                const response = await fetch(`/api/productos/${id}/precio`, {
+                    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nuevo_precio, usuario_id })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    mostrarMensaje('msgPrecio', '¡Precio actualizado! El Trigger registró la auditoría.', true);
+                    e.target.reset();
+                } else mostrarMensaje('msgPrecio', data.error, false);
+            } catch (err) { mostrarMensaje('msgPrecio', 'Error de conexión.', false); }
+        });
+
+        document.getElementById('formReporte').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const inicio = document.getElementById('r_fecha_inicio').value;
+            const fin = document.getElementById('r_fecha_fin').value;
+            cargarDatos(`/api/ventas/reporte?fecha_inicio=${inicio}&fecha_fin=${fin}`, `Resultado de sp_reporte_ventas_periodo`);
+        });
+
+        document.getElementById('formReabastecer').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('re_producto_id').value);
+            const cantidad = parseInt(document.getElementById('re_cantidad').value);
+            const usuario_id = parseInt(document.getElementById('re_usuario_id').value);
+            try {
+                const response = await fetch(`/api/productos/${id}/reabastecer`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cantidad: cantidad, usuario_id: usuario_id })
+                });
+                const isJson = response.headers.get('content-type')?.includes('application/json');
+                if (!isJson) throw new Error("El servidor devolvió HTML. ¿Olvidaste reiniciar el servidor Node.js?");
+                const data = await response.json();
+                if (data.success) {
+                    mostrarMensaje('msgReabastecer', '¡Stock reabastecido exitosamente!', true);
+                    e.target.reset();
+                } else mostrarMensaje('msgReabastecer', `Error BD: ${data.error}`, false);
+            } catch (err) { mostrarMensaje('msgReabastecer', `Error de sistema: ${err.message}`, false); }
+        });
+
+        // VISOR DE FACTURA MEJORADO (CON CLIENTE INTEGRADO)
+        document.getElementById('formFactura').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const ref = document.getElementById('f_referencia').value;
+            const container = document.getElementById('resultadoFactura');
+            container.style.display = 'none';
+            try {
+                const res = await fetch(`/api/ventas/${ref}`);
+                const result = await res.json();
+                if(result.success) {
+                    const cab = result.data.cabecera;
+                    const det = result.data.detalles;
+                    let html = `<div style="text-align:center; border-bottom: 1px solid #ccc; padding-bottom:10px; margin-bottom:10px;">
+                            <h3 style="margin:0;">SIFACUS-ERP</h3>
+                            <p style="margin:5px 0 0 0;">Comprobante de Venta: <b style="color:#e74c3c; font-size:18px;">${cab.correlativo}</b></p>
+                            <p style="margin:0; font-size:12px;">Fecha de emisión: ${new Date(cab.fecha_venta).toLocaleString()}</p>
+                        </div>
+                        <div style="margin-bottom:15px; font-size:14px; background:#f9f9f9; padding:10px; border-radius:4px;">
+                            <strong>👤 Cliente:</strong> ${cab.cliente_nombre || 'Consumidor Final'} (${cab.cliente_rut || 'N/A'}) - Fidelidad: ${cab.cliente_clasificacion || 'N/A'} <br>
+                            <strong>🧑‍💻 Cajero ID:</strong> ${cab.usuario_id} &nbsp;|&nbsp; <strong>🟢 Estado:</strong> ${cab.estado}
+                        </div>
+                        <table style="font-size:13px; margin-bottom:15px;">
+                            <thead><tr><th>SKU</th><th>Producto</th><th>Cant.</th><th>P.Unit</th><th>Subtotal</th></tr></thead><tbody>`;
+                    det.forEach(d => {
+                        html += `<tr><td>${d.sku}</td><td>${d.nombre}</td><td>${d.cantidad}</td><td>Q.${parseFloat(d.precio_unitario).toFixed(2)}</td><td>Q.${parseFloat(d.subtotal_linea).toFixed(2)}</td></tr>`;
+                    });
+                    html += `</tbody></table>
+                        <div style="text-align:right; font-size:14px; padding-top:10px; border-top: 1px solid #ccc;">
+                            <p style="margin:2px;">Subtotal Base: Q.${parseFloat(cab.subtotal).toFixed(2)}</p>
+                            <p style="margin:2px; color:green;">Descuento por Funciones SQL: -Q.${parseFloat(cab.descuento).toFixed(2)}</p>
+                            <p style="margin:2px;">IVA (19%): Q.${parseFloat(cab.impuesto_iva).toFixed(2)}</p>
+                            <h3 style="margin:10px 0 0 0; color:#2c3e50;">TOTAL A PAGAR: Q.${parseFloat(cab.total).toFixed(2)}</h3>
+                        </div>`;
+                    container.innerHTML = html;
+                    container.style.display = 'block';
+                    document.getElementById('msgFactura').style.display = 'none';
+                } else mostrarMensaje('msgFactura', result.error, false);
+            } catch (error) { mostrarMensaje('msgFactura', 'Error de red al consultar la factura.', false); }
+        });
+
+        // LÓGICA CRUDS GENÉRICA (Reducida y Optimizada)
+        function alternarCamposCrud(pref) {
+            const tipo = document.getElementById(`${pref}_tipo`).value;
+            const idIn = document.getElementById(`${pref}_id`);
+            const camp = document.getElementById(`${pref}_campos`);
+            const btn = document.getElementById(`${pref}_btn`);
+            if (tipo === 'crear') {
+                idIn.style.display = 'none'; camp.style.display = 'block';
+                btn.innerText = 'Crear'; btn.className = 'btn btn-success';
+            } else if (tipo === 'editar') {
+                idIn.style.display = 'block'; camp.style.display = 'block';
+                btn.innerText = 'Actualizar'; btn.className = 'btn';
+            } else {
+                idIn.style.display = 'block'; camp.style.display = 'none';
+                btn.innerText = 'Eliminar'; btn.className = 'btn'; btn.style.backgroundColor = '#e74c3c';
+            }
+        }
+
+        async function procesarCrud(e, entidad, prefijo) {
+            e.preventDefault();
+            const tipo = document.getElementById(`${prefijo}_tipo`).value;
+            const id = document.getElementById(`${prefijo}_id`)?.value;
+            let payload = {};
+            
+            if (entidad === 'productos') {
+                payload = { sku: document.getElementById('c_sku').value, nombre: document.getElementById('c_nombre').value, descripcion: document.getElementById('c_desc').value, precio_compra: document.getElementById('c_compra').value, precio_venta: document.getElementById('c_venta').value, stock_actual: document.getElementById('c_stock_act').value, stock_minimo: document.getElementById('c_stock_min').value, categoria_id: document.getElementById('c_cat').value };
+            } else if (entidad === 'clientes') {
+                payload = { rut_dni: document.getElementById('cli_rut').value, nombre: document.getElementById('cli_nombre').value, email: document.getElementById('cli_email').value, telefono: document.getElementById('cli_tel').value, clasificacion: document.getElementById('cli_clas').value };
+            } else if (entidad === 'categorias') {
+                payload = { nombre: document.getElementById('cat_nombre').value, descripcion: document.getElementById('cat_desc').value };
+            }
+            let url = `/api/${entidad}`; let method = 'POST';
+            if (tipo === 'editar') { url += `/${id}`; method = 'PUT'; }
+            if (tipo === 'eliminar') { url += `/${id}`; method = 'DELETE'; }
+            try {
+                const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const data = await res.json();
+                if (data.success) {
+                    mostrarMensaje(`msg_${entidad}`, data.message || 'Operación exitosa', true);
+                    e.target.reset();
+                } else mostrarMensaje(`msg_${entidad}`, data.error, false);
+            } catch (err) { mostrarMensaje(`msg_${entidad}`, `Error: ${err.message}`, false); }
+        }
+
+        document.getElementById('formProductos').addEventListener('submit', (e) => procesarCrud(e, 'productos', 'c'));
+        document.getElementById('formClientes').addEventListener('submit', (e) => procesarCrud(e, 'clientes', 'cli'));
+        document.getElementById('formCategorias').addEventListener('submit', (e) => procesarCrud(e, 'categorias', 'cat'));
+    </script>
+</body>
+</html>
