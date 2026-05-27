@@ -26,6 +26,11 @@ const VentaRepository = {
         return rows;
     },
 
+    async getDashboardResumen() {
+        const [rows] = await pool.query('SELECT * FROM vw_dashboard_resumen');
+        return rows[0];
+    },
+
     async getVentaCompleta(referencia) {
         const [cabecera] = await pool.query(`
             SELECT v.*, c.rut_dni AS cliente_rut, c.nombre AS cliente_nombre, c.clasificacion AS cliente_clasificacion

@@ -21,6 +21,7 @@ router.get('/clientes/top', ventaController.getTopClientes);
 
 // ✅ CORRECTO: Las rutas fijas van primero
 router.get('/ventas/recientes', ventaController.getRecientes);
+router.get('/dashboard', ventaController.getDashboard);
 // ✅ CORRECTO: Las rutas con parámetros dinámicos (:id) van al final
 router.get('/ventas/:id', ventaController.getVenta);
 

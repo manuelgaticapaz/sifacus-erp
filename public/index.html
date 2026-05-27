@@ -84,6 +84,29 @@
 
     <div class="container">
 
+        <!-- SECCIÓN 0: DASHBOARD PRINCIPAL -->
+        <div class="panel" style="padding-bottom: 15px; background: transparent; box-shadow: none; padding-top: 0;">
+            <h2 style="margin-bottom: 15px;">📊 Dashboard Analítico <span class="badge" style="background:#2980b9;">vw_dashboard_resumen</span></h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div class="card" style="text-align: center; background: #e8f4f8; border-color: #bce0ef; padding: 15px;">
+                    <h4 style="margin: 0; color: #2980b9;">Ventas Hoy</h4>
+                    <h2 id="dash_ventas_hoy" style="margin: 10px 0; color: #2c3e50;">Q.0.00</h2>
+                </div>
+                <div class="card" style="text-align: center; background: #e8f8f5; border-color: #a3e4d7; padding: 15px;">
+                    <h4 style="margin: 0; color: #117a65;">Ventas del Mes</h4>
+                    <h2 id="dash_ventas_mes" style="margin: 10px 0; color: #2c3e50;">Q.0.00</h2>
+                </div>
+                <div class="card" style="text-align: center; background: #fcf3cf; border-color: #ffe69c; padding: 15px;">
+                    <h4 style="margin: 0; color: #856404;">Alertas de Stock</h4>
+                    <h2 id="dash_stock" style="margin: 10px 0; color: #2c3e50;">0</h2>
+                </div>
+                <div class="card" style="text-align: center; background: #f8d7da; border-color: #f5c6cb; padding: 15px;">
+                    <h4 style="margin: 0; color: #721c24;">Total Clientes</h4>
+                    <h2 id="dash_clientes" style="margin: 10px 0; color: #2c3e50;">0</h2>
+                </div>
+            </div>
+        </div>
+
         <div class="grid-2">
             <!-- SECCIÓN 1: CAJA / VENTAS -->
             <div class="panel">
@@ -360,7 +383,7 @@
                 const data = await response.json();
                 if (data.success) {
                     mostrarMensaje('msgVenta', `¡Venta Exitosa! SP y Triggers ejecutados. Correlativo: <b>${data.data.correlativo}</b>`, true);
-                    e.target.reset(); carritoVenta = []; renderCarrito(); 
+                    e.target.reset(); carritoVenta = []; renderCarrito(); cargarDashboard(); cargarUltimasFacturas();
                 } else mostrarMensaje('msgVenta', `Error de BD: ${data.error}`, false);
             } catch (err) { mostrarMensaje('msgVenta', 'Error de conexión con el servidor.', false); }
         });
@@ -521,6 +544,20 @@
             }
         }
 
+        // FUNCION PARA CARGAR EL DASHBOARD
+        async function cargarDashboard() {
+            try {
+                const res = await fetch('/api/dashboard');
+                const result = await res.json();
+                if (result.success && result.data) {
+                    document.getElementById('dash_ventas_hoy').innerText = 'Q.' + parseFloat(result.data.ventas_hoy).toFixed(2);
+                    document.getElementById('dash_ventas_mes').innerText = 'Q.' + parseFloat(result.data.ventas_mes).toFixed(2);
+                    document.getElementById('dash_stock').innerText = result.data.productos_alerta_stock;
+                    document.getElementById('dash_clientes').innerText = result.data.total_clientes;
+                }
+            } catch (error) { console.error("Error cargando dashboard:", error); }
+        }
+
         function verFacturaRapida(referencia) {
             document.getElementById('f_referencia').value = referencia;
             // Auto-disparamos el formulario del visor
@@ -577,8 +614,11 @@
         document.getElementById('formClientes').addEventListener('submit', (e) => procesarCrud(e, 'clientes', 'cli'));
         document.getElementById('formCategorias').addEventListener('submit', (e) => procesarCrud(e, 'categorias', 'cat'));
 
-        // Cargar las últimas facturas automáticamente al iniciar la página
-        window.addEventListener('DOMContentLoaded', cargarUltimasFacturas);
+        // Cargar las últimas facturas y el dashboard automáticamente al iniciar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            cargarUltimasFacturas();
+            cargarDashboard();
+        });
     </script>
 </body>
 </html>

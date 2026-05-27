@@ -484,6 +484,15 @@ WHERE vc.estado = 'COMPLETADO'
 ORDER BY vc.fecha_venta DESC
 LIMIT 30;
 
+-- VISTA 4: Dashboard de Resumen (Indicadores Clave de Rendimiento)
+CREATE VIEW vw_dashboard_resumen AS
+SELECT 
+    (SELECT COALESCE(SUM(total), 0) FROM ventas_cabecera WHERE DATE(fecha_venta) = CURDATE() AND estado = 'COMPLETADO') AS ventas_hoy,
+    (SELECT COALESCE(SUM(total), 0) FROM ventas_cabecera WHERE MONTH(fecha_venta) = MONTH(CURDATE()) AND YEAR(fecha_venta) = YEAR(CURDATE()) AND estado = 'COMPLETADO') AS ventas_mes,
+    (SELECT COUNT(*) FROM vw_productos_bajo_stock_minimo) AS productos_alerta_stock,
+    (SELECT COUNT(*) FROM clientes) AS total_clientes;
+
+
 -- =====================================================================
 -- 8. ÍNDICES DE RENDIMIENTO (Performance Tuning)
 -- =====================================================================

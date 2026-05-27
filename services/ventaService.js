@@ -25,6 +25,10 @@ const VentaService = {
         return await VentaRepository.getUltimasFacturas();
     },
 
+    async obtenerDashboardResumen() {
+        return await VentaRepository.getDashboardResumen();
+    },
+
     async obtenerVenta(referencia) {
         return await VentaRepository.getVentaCompleta(referencia);
     }

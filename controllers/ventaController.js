@@ -38,6 +38,15 @@ const ventaController = {
         }
     },
 
+    async getDashboard(req, res) {
+        try {
+            const resumen = await VentaService.obtenerDashboardResumen();
+            res.status(200).json({ success: true, data: resumen });
+        } catch (err) {
+            res.status(500).json({ success: false, error: err.message });
+        }
+    },
+
     async getVenta(req, res) {
         try {
             const venta = await VentaService.obtenerVenta(req.params.id);
