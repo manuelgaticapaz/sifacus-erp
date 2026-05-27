@@ -21,6 +21,11 @@ const VentaRepository = {
         return rows;
     },
 
+    async getUltimasFacturas() {
+        const [rows] = await pool.query('SELECT * FROM vw_ultimas_facturas');
+        return rows;
+    },
+
     async getVentaCompleta(referencia) {
         const [cabecera] = await pool.query(`
             SELECT v.*, c.rut_dni AS cliente_rut, c.nombre AS cliente_nombre, c.clasificacion AS cliente_clasificacion

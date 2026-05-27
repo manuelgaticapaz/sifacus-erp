@@ -20,6 +20,11 @@ const VentaService = {
         return await VentaRepository.getClientesMasActivos();
     },
 
+    async obtenerUltimasFacturas() {
+        // Apuntamos directo a la nueva vista de la base de datos
+        return await VentaRepository.getUltimasFacturas();
+    },
+
     async obtenerVenta(referencia) {
         return await VentaRepository.getVentaCompleta(referencia);
     }

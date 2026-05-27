@@ -18,6 +18,10 @@ router.delete('/productos/:id', productoController.delete);
 router.post('/ventas', ventaController.procesarVenta);
 router.get('/ventas/reporte', ventaController.getReporte);
 router.get('/clientes/top', ventaController.getTopClientes);
+
+// ✅ CORRECTO: Las rutas fijas van primero
+router.get('/ventas/recientes', ventaController.getRecientes);
+// ✅ CORRECTO: Las rutas con parámetros dinámicos (:id) van al final
 router.get('/ventas/:id', ventaController.getVenta);
 
 // Rutas de Categorías

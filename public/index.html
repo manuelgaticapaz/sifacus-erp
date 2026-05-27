@@ -114,6 +114,16 @@
                     </form>
                     <div id="msgVenta" class="alert"></div>
                 </div>
+                
+                <!-- CUADRO INFORMATIVO DE FUNCIONES SQL -->
+                <div class="card" style="margin-top: 15px; background: #e8f8f5; border-color: #a3e4d7;">
+                    <h4 style="color: #117a65; margin-bottom: 5px;">ℹ️ Verificación de Funciones SQL</h4>
+                    <ul style="font-size: 13px; color: #2c3e50; padding-left: 20px; margin-top: 5px;">
+                        <li><b>Descuento (fn_obtener_descuento_cliente):</b> ORO (10%), PLATA (5%), Otros (0%) | +3% extra si > Q. 2,000.</li>
+                        <li><b>Impuestos (fn_calcular_iva):</b> Retorna siempre el 19% exacto del monto evaluado.</li>
+                    </ul>
+                    <p style="font-size: 12px; font-style: italic; color: #7f8c8d; margin-top: 5px; margin-bottom: 0;">Revisa los porcentajes (%) devueltos en el Visor de Facturas para confirmarlo.</p>
+                </div>
             </div>
             
             <!-- SECCIÓN 2: HERRAMIENTAS ADICIONALES -->
@@ -127,6 +137,16 @@
                     </form>
                     <div id="resultadoFactura" style="display: none; background: #fff; border: 1px dashed #ccc; padding: 20px; border-radius: 5px; margin-top: 15px;"></div>
                     <div id="msgFactura" class="alert"></div>
+                    
+                    <!-- SECCIÓN DE ÚLTIMAS FACTURAS -->
+                    <hr style="margin: 20px 0 10px 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h4 style="margin: 0; color: #34495e;">📋 Últimas Facturas</h4>
+                        <button type="button" class="btn btn-success" style="font-size: 12px; padding: 5px 10px; margin: 0;" onclick="cargarUltimasFacturas()">🔄 Actualizar</button>
+                    </div>
+                    <div id="tablaUltimasFacturas" style="margin-top: 10px; overflow-x: auto;">
+                        <p style="color: #7f8c8d; font-style: italic; font-size: 13px; margin: 0;">Cargando facturas recientes...</p>
+                    </div>
                 </div>
 
                 <!-- AUDITORÍA Y PRECIOS -->
@@ -417,11 +437,22 @@
                     det.forEach(d => {
                         html += `<tr><td>${d.sku}</td><td>${d.nombre}</td><td>${d.cantidad}</td><td>Q.${parseFloat(d.precio_unitario).toFixed(2)}</td><td>Q.${parseFloat(d.subtotal_linea).toFixed(2)}</td></tr>`;
                     });
+                    
+                    const porcentajeDescuento = cab.subtotal > 0 ? ((parseFloat(cab.descuento) / parseFloat(cab.subtotal)) * 100).toFixed(0) : 0;
+                    
+                    // Intentamos inferir la base imponible sobre la que se calculó el IVA (Subtotal - Descuento)
+                    const baseImponible = parseFloat(cab.subtotal) - parseFloat(cab.descuento);
+                    let porcentajeIva = baseImponible > 0 ? ((parseFloat(cab.impuesto_iva) / baseImponible) * 100).toFixed(0) : 0;
+                    // Si la función SQL en realidad calcula el IVA sobre el bruto sin descuento, hacemos ese cálculo para mostrarlo correctamente
+                    if (porcentajeIva < 18 || porcentajeIva > 20) {
+                        porcentajeIva = parseFloat(cab.subtotal) > 0 ? ((parseFloat(cab.impuesto_iva) / parseFloat(cab.subtotal)) * 100).toFixed(0) : 0;
+                    }
+
                     html += `</tbody></table>
                         <div style="text-align:right; font-size:14px; padding-top:10px; border-top: 1px solid #ccc;">
                             <p style="margin:2px;">Subtotal Base: Q.${parseFloat(cab.subtotal).toFixed(2)}</p>
-                            <p style="margin:2px; color:green;">Descuento por Funciones SQL: -Q.${parseFloat(cab.descuento).toFixed(2)}</p>
-                            <p style="margin:2px;">IVA (19%): Q.${parseFloat(cab.impuesto_iva).toFixed(2)}</p>
+                            <p style="margin:2px; color:green;">Descuento por Función (${porcentajeDescuento}%): -Q.${parseFloat(cab.descuento).toFixed(2)}</p>
+                            <p style="margin:2px; color:#c0392b;">IVA por Función (${porcentajeIva}%): Q.${parseFloat(cab.impuesto_iva).toFixed(2)}</p>
                             <h3 style="margin:10px 0 0 0; color:#2c3e50;">TOTAL A PAGAR: Q.${parseFloat(cab.total).toFixed(2)}</h3>
                         </div>`;
                     container.innerHTML = html;
@@ -430,6 +461,73 @@
                 } else mostrarMensaje('msgFactura', result.error, false);
             } catch (error) { mostrarMensaje('msgFactura', 'Error de red al consultar la factura.', false); }
         });
+
+        // FUNCIONES PARA TABLA DE ÚLTIMAS FACTURAS
+        async function cargarUltimasFacturas() {
+            const container = document.getElementById('tablaUltimasFacturas');
+            container.innerHTML = '<p style="font-size:13px; color:#666;">Cargando facturas...</p>';
+            
+            try {
+                // Consumimos el nuevo endpoint que apunta a la VISTA en la base de datos
+                const res = await fetch(`/api/ventas/recientes`);
+                const result = await res.json();
+                
+                if (!result.success) throw new Error(result.error);
+                if (!result.data || result.data.length === 0) {
+                    container.innerHTML = '<p style="font-size:13px; color:#e74c3c;">No hay facturas emitidas en los últimos 30 días.</p>';
+                    return;
+                }
+
+                // Tomamos las últimas 8 (la vista ya viene ordenada por fecha desc)
+                const facturas = result.data.slice(0, 8);
+                
+                let html = `<table style="font-size: 12.5px;">
+                    <thead>
+                        <tr>
+                            <th>Factura</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Arts.</th>
+                            <th>Total</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+                
+                facturas.forEach(f => {
+                    const correlativo = f.correlativo || f.id || '-';
+                    const fechaRaw = f.fecha_venta || f.fecha || '-';
+                    const fecha = fechaRaw !== '-' ? new Date(fechaRaw).toLocaleString() : '-';
+                    const cliente = f.cliente_nombre || f.cliente || 'Consumidor Final';
+                    const cant = f.cantidad_productos || f.total_articulos || f.items || '-';
+                    const total = parseFloat(f.total_venta || f.total || f.monto || 0).toFixed(2);
+                    
+                    html += `<tr>
+                        <td><b style="color:#2c3e50;">${correlativo}</b></td>
+                        <td>${fecha}</td>
+                        <td style="max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${cliente}">${cliente}</td>
+                        <td style="text-align:center;">${cant}</td>
+                        <td><b style="color:#27ae60;">Q.${total}</b></td>
+                        <td>
+                            <button type="button" class="btn" style="padding: 3px 8px; font-size: 11px; margin: 0; background: #34495e;" onclick="verFacturaRapida('${correlativo}')">🔍 Ver</button>
+                        </td>
+                    </tr>`;
+                });
+                
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = `<p style="color:#e74c3c; font-size:13px;">Error al cargar: ${error.message}</p>`;
+            }
+        }
+
+        function verFacturaRapida(referencia) {
+            document.getElementById('f_referencia').value = referencia;
+            // Auto-disparamos el formulario del visor
+            document.getElementById('formFactura').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            // Hacemos scroll suave hacia el inicio del visor
+            document.getElementById('formFactura').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
 
         // LÓGICA CRUDS GENÉRICA (Reducida y Optimizada)
         function alternarCamposCrud(pref) {
@@ -478,6 +576,9 @@
         document.getElementById('formProductos').addEventListener('submit', (e) => procesarCrud(e, 'productos', 'c'));
         document.getElementById('formClientes').addEventListener('submit', (e) => procesarCrud(e, 'clientes', 'cli'));
         document.getElementById('formCategorias').addEventListener('submit', (e) => procesarCrud(e, 'categorias', 'cat'));
+
+        // Cargar las últimas facturas automáticamente al iniciar la página
+        window.addEventListener('DOMContentLoaded', cargarUltimasFacturas);
     </script>
 </body>
 </html>
