@@ -13,19 +13,66 @@
             color: #333;
         }
 
-        h1, h2, h3, h4 { color: #2c3e50; margin-top: 0; }
-        h1 { border-bottom: 3px solid #e74c3c; padding-bottom: 10px; margin-bottom: 30px;}
-        h2 { font-size: 20px; margin-bottom: 20px; }
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        h1 {
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
 
         /* LAYOUT PRINCIPAL: Grid y Flexbox para evitar que se vea "rejutnado" */
-        .container { display: flex; flex-direction: column; gap: 30px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
 
-        .panel { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
-        .card { background: #fdfdfd; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; }
-        
-        .badge { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; margin-left: 10px; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card {
+            background: #fdfdfd;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .badge {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
 
         .btn {
             padding: 10px 15px;
@@ -38,11 +85,21 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
-        .btn:hover { background-color: #2980b9; }
-        .btn-success { background-color: #27ae60; }
-        .btn-success:hover { background-color: #219150; }
 
-        input, select {
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+        }
+
+        .btn-success:hover {
+            background-color: #219150;
+        }
+
+        input,
+        select {
             padding: 8px;
             margin-bottom: 10px;
             width: 100%;
@@ -50,7 +107,11 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        .form-row { display: flex; gap: 10px; }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
 
         table {
             width: 100%;
@@ -58,13 +119,24 @@
             margin-top: 15px;
             font-size: 14px;
         }
-        th, td {
+
+        th,
+        td {
             padding: 12px 15px;
             border-bottom: 1px solid #ddd;
             text-align: left;
         }
-        th { background-color: #2c3e50; color: white; text-transform: uppercase; font-size: 13px; }
-        tr:hover { background-color: #f1f1f1; }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
 
         .alert {
             padding: 10px;
@@ -73,34 +145,55 @@
             display: none;
             font-size: 14px;
         }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        hr { border: 0; border-top: 1px solid #eaeaea; margin: 25px 0; }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eaeaea;
+            margin: 25px 0;
+        }
     </style>
 </head>
 
 <body>
-    <h1>🚀 SIFACUS-ERP <span style="font-size: 16px; color: #7f8c8d; font-weight: normal;">| Gestión Integral de Base de Datos</span></h1>
+    <h1>🚀 SIFACUS-ERP <span style="font-size: 16px; color: #7f8c8d; font-weight: normal;">| Gestión Integral de Base de
+            Datos</span></h1>
 
     <div class="container">
 
         <!-- SECCIÓN 0: DASHBOARD PRINCIPAL -->
         <div class="panel" style="padding-bottom: 15px; background: transparent; box-shadow: none; padding-top: 0;">
-            <h2 style="margin-bottom: 15px;">📊 Dashboard Analítico <span class="badge" style="background:#2980b9;">vw_dashboard_resumen</span></h2>
+            <h2 style="margin-bottom: 15px;">📊 Dashboard Analítico <span class="badge"
+                    style="background:#2980b9;">vw_dashboard_resumen</span></h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                <div class="card" style="text-align: center; background: #e8f4f8; border-color: #bce0ef; padding: 15px;">
+                <div class="card"
+                    style="text-align: center; background: #e8f4f8; border-color: #bce0ef; padding: 15px;">
                     <h4 style="margin: 0; color: #2980b9;">Ventas Hoy</h4>
                     <h2 id="dash_ventas_hoy" style="margin: 10px 0; color: #2c3e50;">Q.0.00</h2>
                 </div>
-                <div class="card" style="text-align: center; background: #e8f8f5; border-color: #a3e4d7; padding: 15px;">
+                <div class="card"
+                    style="text-align: center; background: #e8f8f5; border-color: #a3e4d7; padding: 15px;">
                     <h4 style="margin: 0; color: #117a65;">Ventas del Mes</h4>
                     <h2 id="dash_ventas_mes" style="margin: 10px 0; color: #2c3e50;">Q.0.00</h2>
                 </div>
-                <div class="card" style="text-align: center; background: #fcf3cf; border-color: #ffe69c; padding: 15px;">
+                <div class="card"
+                    style="text-align: center; background: #fcf3cf; border-color: #ffe69c; padding: 15px;">
                     <h4 style="margin: 0; color: #856404;">Alertas de Stock</h4>
                     <h2 id="dash_stock" style="margin: 10px 0; color: #2c3e50;">0</h2>
                 </div>
-                <div class="card" style="text-align: center; background: #f8d7da; border-color: #f5c6cb; padding: 15px;">
+                <div class="card"
+                    style="text-align: center; background: #f8d7da; border-color: #f5c6cb; padding: 15px;">
                     <h4 style="margin: 0; color: #721c24;">Total Clientes</h4>
                     <h2 id="dash_clientes" style="margin: 10px 0; color: #2c3e50;">0</h2>
                 </div>
@@ -116,15 +209,29 @@
                     <form id="formAgregarCarrito" class="form-row">
                         <input type="number" id="cart_prod_id" placeholder="ID Prod." required>
                         <input type="number" id="cart_cant" placeholder="Cant." required>
-                        <button type="submit" class="btn" style="white-space: nowrap; margin-bottom:10px;">+ Añadir</button>
+                        <button type="submit" class="btn" style="white-space: nowrap; margin-bottom:10px;">+
+                            Añadir</button>
                     </form>
                     <table style="margin-top: 0;">
-                        <thead><tr><th>Producto</th><th>Precio</th><th>Cant.</th><th>Subtotal</th><th>Acción</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cant.</th>
+                                <th>Subtotal</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
                         <tbody id="bodyCarrito">
-                            <tr><td colspan="5" style="text-align:center; color:#999;">El pedido está vacío</td></tr>
+                            <tr>
+                                <td colspan="5" style="text-align:center; color:#999;">El pedido está vacío</td>
+                            </tr>
                         </tbody>
                         <tfoot id="footCarrito" style="display:none; font-weight:bold; background:#e8f4f8;">
-                            <tr><td colspan="3" style="text-align:right;">TOTAL APROX:</td><td colspan="2" id="cart_total">Q.0.00</td></tr>
+                            <tr>
+                                <td colspan="3" style="text-align:right;">TOTAL APROX:</td>
+                                <td colspan="2" id="cart_total">Q.0.00</td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -133,22 +240,25 @@
                     <form id="formVenta">
                         <input type="number" id="v_cliente_id" placeholder="ID Cliente (Ej: 1)" required>
                         <input type="number" id="v_usuario_id" placeholder="ID Usuario/Cajero (Ej: 1)" required>
-                        <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 10px;">Procesar Venta Transaccional</button>
+                        <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 10px;">Procesar
+                            Venta Transaccional</button>
                     </form>
                     <div id="msgVenta" class="alert"></div>
                 </div>
-                
+
                 <!-- CUADRO INFORMATIVO DE FUNCIONES SQL -->
                 <div class="card" style="margin-top: 15px; background: #e8f8f5; border-color: #a3e4d7;">
                     <h4 style="color: #117a65; margin-bottom: 5px;">ℹ️ Verificación de Funciones SQL</h4>
                     <ul style="font-size: 13px; color: #2c3e50; padding-left: 20px; margin-top: 5px;">
-                        <li><b>Descuento (fn_obtener_descuento_cliente):</b> ORO (10%), PLATA (5%), Otros (0%) | +3% extra si > Q. 2,000.</li>
+                        <li><b>Descuento (fn_obtener_descuento_cliente):</b> ORO (10%), PLATA (5%), Otros (0%) | +3%
+                            extra si > Q. 2,000.</li>
                         <li><b>Impuestos (fn_calcular_iva):</b> Retorna siempre el 19% exacto del monto evaluado.</li>
                     </ul>
-                    <p style="font-size: 12px; font-style: italic; color: #7f8c8d; margin-top: 5px; margin-bottom: 0;">Revisa los porcentajes (%) devueltos en el Visor de Facturas para confirmarlo.</p>
+                    <p style="font-size: 12px; font-style: italic; color: #7f8c8d; margin-top: 5px; margin-bottom: 0;">
+                        Revisa los porcentajes (%) devueltos en el Visor de Facturas para confirmarlo.</p>
                 </div>
             </div>
-            
+
             <!-- SECCIÓN 2: HERRAMIENTAS ADICIONALES -->
             <div style="display: flex; flex-direction: column; gap: 30px;">
                 <!-- VISOR DE FACTURA -->
@@ -158,17 +268,22 @@
                         <input type="text" id="f_referencia" placeholder="Correlativo (Ej: FAC-00000001) o ID" required>
                         <button type="submit" class="btn" style="white-space: nowrap;">Buscar</button>
                     </form>
-                    <div id="resultadoFactura" style="display: none; background: #fff; border: 1px dashed #ccc; padding: 20px; border-radius: 5px; margin-top: 15px;"></div>
+                    <div id="resultadoFactura"
+                        style="display: none; background: #fff; border: 1px dashed #ccc; padding: 20px; border-radius: 5px; margin-top: 15px;">
+                    </div>
                     <div id="msgFactura" class="alert"></div>
-                    
+
                     <!-- SECCIÓN DE ÚLTIMAS FACTURAS -->
                     <hr style="margin: 20px 0 10px 0;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <h4 style="margin: 0; color: #34495e;">📋 Últimas Facturas</h4>
-                        <button type="button" class="btn btn-success" style="font-size: 12px; padding: 5px 10px; margin: 0;" onclick="cargarUltimasFacturas()">🔄 Actualizar</button>
+                        <button type="button" class="btn btn-success"
+                            style="font-size: 12px; padding: 5px 10px; margin: 0;" onclick="cargarUltimasFacturas()">🔄
+                            Actualizar</button>
                     </div>
                     <div id="tablaUltimasFacturas" style="margin-top: 10px; overflow-x: auto;">
-                        <p style="color: #7f8c8d; font-style: italic; font-size: 13px; margin: 0;">Cargando facturas recientes...</p>
+                        <p style="color: #7f8c8d; font-style: italic; font-size: 13px; margin: 0;">Cargando facturas
+                            recientes...</p>
                     </div>
                 </div>
 
@@ -178,7 +293,8 @@
                     <form id="formPrecio">
                         <div class="form-row">
                             <input type="number" id="p_producto_id" placeholder="ID Prod." required>
-                            <input type="number" step="0.01" id="p_nuevo_precio" placeholder="Nuevo Precio (Q.)" required>
+                            <input type="number" step="0.01" id="p_nuevo_precio" placeholder="Nuevo Precio (Q.)"
+                                required>
                             <input type="number" id="p_usuario_id" placeholder="Tu Usuario ID" required>
                         </div>
                         <button type="submit" class="btn" style="width: 100%;">Disparar Trigger de Auditoría</button>
@@ -196,10 +312,13 @@
                 <div class="card">
                     <h4>📂 Categorías</h4>
                     <select id="cat_tipo" onchange="alternarCamposCrud('cat')">
-                        <option value="crear">Crear Categoría</option><option value="editar">Editar Categoría</option><option value="eliminar">Eliminar Categoría</option>
+                        <option value="crear">Crear Categoría</option>
+                        <option value="editar">Editar Categoría</option>
+                        <option value="eliminar">Eliminar Categoría</option>
                     </select>
                     <form id="formCategorias">
-                        <input type="number" id="cat_id" placeholder="ID Categoría" style="display:none; background:#fff3cd;">
+                        <input type="number" id="cat_id" placeholder="ID Categoría"
+                            style="display:none; background:#fff3cd;">
                         <div id="cat_campos">
                             <input type="text" id="cat_nombre" placeholder="Nombre">
                             <input type="text" id="cat_desc" placeholder="Descripción">
@@ -213,20 +332,28 @@
                 <div class="card">
                     <h4>👥 Clientes</h4>
                     <select id="cli_tipo" onchange="alternarCamposCrud('cli')">
-                        <option value="crear">Registrar Cliente</option><option value="editar">Editar Cliente</option><option value="eliminar">Eliminar Cliente</option>
+                        <option value="crear">Registrar Cliente</option>
+                        <option value="editar">Editar Cliente</option>
+                        <option value="eliminar">Eliminar Cliente</option>
                     </select>
                     <form id="formClientes">
-                        <input type="number" id="cli_id" placeholder="ID Cliente" style="display:none; background:#fff3cd;">
+                        <input type="number" id="cli_id" placeholder="ID Cliente"
+                            style="display:none; background:#fff3cd;">
                         <div id="cli_campos">
                             <input type="text" id="cli_rut" placeholder="RUT / DNI">
                             <input type="text" id="cli_nombre" placeholder="Nombre Completo">
                             <input type="email" id="cli_email" placeholder="Correo Electrónico">
                             <div class="form-row">
                                 <input type="text" id="cli_tel" placeholder="Teléfono">
-                                <select id="cli_clas"><option value="BRONCE">BRONCE</option><option value="PLATA">PLATA</option><option value="ORO">ORO</option></select>
+                                <select id="cli_clas">
+                                    <option value="BRONCE">BRONCE</option>
+                                    <option value="PLATA">PLATA</option>
+                                    <option value="ORO">ORO</option>
+                                </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success" style="width: 100%;" id="cli_btn">Registrar</button>
+                        <button type="submit" class="btn btn-success" style="width: 100%;"
+                            id="cli_btn">Registrar</button>
                     </form>
                     <div id="msg_clientes" class="alert"></div>
                 </div>
@@ -235,27 +362,34 @@
                 <div class="card">
                     <h4>📦 Productos e Inventario</h4>
                     <select id="c_tipo" onchange="alternarCamposCrud('c')">
-                        <option value="crear">Crear Producto</option><option value="editar">Editar Producto</option><option value="eliminar">Desactivar Producto</option>
+                        <option value="crear">Crear Producto</option>
+                        <option value="editar">Editar Producto</option>
+                        <option value="eliminar">Desactivar Producto</option>
                     </select>
                     <form id="formProductos">
-                        <input type="number" id="c_id" placeholder="ID Producto" style="display:none; background:#fff3cd;">
+                        <input type="number" id="c_id" placeholder="ID Producto"
+                            style="display:none; background:#fff3cd;">
                         <div id="c_campos">
-                            <div class="form-row"><input type="text" id="c_sku" placeholder="SKU"><input type="text" id="c_nombre" placeholder="Nombre"></div>
+                            <div class="form-row"><input type="text" id="c_sku" placeholder="SKU"><input type="text"
+                                    id="c_nombre" placeholder="Nombre"></div>
                             <input type="text" id="c_desc" placeholder="Descripción breve">
-                    <div class="form-row">
+                            <div class="form-row">
                                 <input type="number" step="0.01" id="c_compra" placeholder="Costo (Q.)">
                                 <input type="number" step="0.01" id="c_venta" placeholder="Precio (Q.)">
                             </div>
                             <div class="form-row">
-                                <input type="number" id="c_stock_act" placeholder="Stock Act."><input type="number" id="c_stock_min" placeholder="Stock Min."><input type="number" id="c_cat" placeholder="ID Cat.">
+                                <input type="number" id="c_stock_act" placeholder="Stock Act."><input type="number"
+                                    id="c_stock_min" placeholder="Stock Min."><input type="number" id="c_cat"
+                                    placeholder="ID Cat.">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success" style="width: 100%;" id="c_btn">Crear</button>
                     </form>
                     <div id="msg_productos" class="alert"></div>
-                    
+
                     <hr style="margin: 15px 0;">
-                    <h5 style="margin:0 0 10px 0; color:#2c3e50;">🚚 Reabastecer <span class="badge" style="margin:0;">sp_reabastecer</span></h5>
+                    <h5 style="margin:0 0 10px 0; color:#2c3e50;">🚚 Reabastecer <span class="badge"
+                            style="margin:0;">sp_reabastecer</span></h5>
                     <form id="formReabastecer" class="form-row">
                         <input type="number" id="re_producto_id" placeholder="ID" required>
                         <input type="number" id="re_cantidad" placeholder="Cant." required>
@@ -271,24 +405,30 @@
         <div class="panel">
             <h2>📊 Reportes y Vistas Analíticas</h2>
             <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
-                <button class="btn" onclick="cargarDatos('/api/productos', 'Catálogo de Productos Activos')">📦 Ver Catálogo</button>
-                <button class="btn" onclick="cargarDatos('/api/productos/alertas-stock', 'vw_productos_bajo_stock_minimo')">⚠️ Alertas de Stock</button>
-                <button class="btn" onclick="cargarDatos('/api/clientes/top', 'vw_clientes_mas_activos')">🏆 Top Clientes</button>
-                <button class="btn" onclick="cargarDatos('/api/categorias', 'Categorías Existentes')">📂 Ver Categorías</button>
+                <button class="btn" onclick="cargarDatos('/api/productos', 'Catálogo de Productos Activos')">📦 Ver
+                    Catálogo</button>
+                <button class="btn"
+                    onclick="cargarDatos('/api/productos/alertas-stock', 'vw_productos_bajo_stock_minimo')">⚠️ Alertas
+                    de Stock</button>
+                <button class="btn" onclick="cargarDatos('/api/clientes/top', 'vw_clientes_mas_activos')">🏆 Top
+                    Clientes</button>
+                <button class="btn" onclick="cargarDatos('/api/categorias', 'Categorías Existentes')">📂 Ver
+                    Categorías</button>
                 <button class="btn" onclick="cargarDatos('/api/clientes', 'Base de Clientes')">👥 Ver Clientes</button>
             </div>
-            
+
             <form id="formReporte" class="form-row" style="max-width: 500px;">
                 <input type="date" id="r_fecha_inicio" required>
                 <input type="date" id="r_fecha_fin" required>
-                <button type="submit" class="btn" style="white-space: nowrap;">Reporte sp_reporte_ventas_periodo</button>
+                <button type="submit" class="btn" style="white-space: nowrap;">Reporte
+                    sp_reporte_ventas_periodo</button>
             </form>
 
             <div id="resultado-vistas" style="margin-top: 20px; overflow-x: auto;">
                 <p style="color: #7f8c8d; font-style: italic;">Los resultados de las consultas aparecerán aquí.</p>
             </div>
         </div>
-        
+
     </div>
 
     <script>
@@ -319,7 +459,12 @@
                     html += '<tr>';
                     columnas.forEach(col => {
                         let val = fila[col] !== null ? fila[col] : '-';
-                        if(typeof val === 'string' && val.match(/^\d{4}-\d{2}-\d{2}T/)) val = new Date(val).toLocaleDateString();
+                        if (typeof val === 'string' && val.match(/^\d{4}-\d{2}-\d{2}T/)) {
+                            val = new Date(val).toLocaleDateString();
+                        } else if (['subtotal_acumulado', 'impuestos_acumulados', 'descuentos_aplicados', 'total_recaudado', 'precio_compra', 'precio_venta', 'monto_total_gastado'].includes(col) && val !== '-') {
+                            // Da formato de moneda a las columnas del reporte
+                            val = '<b style="color:#27ae60;">Q.' + parseFloat(val).toFixed(2) + '</b>';
+                        }
                         html += `<td>${val}</td>`;
                     });
                     html += '</tr>';
@@ -339,11 +484,11 @@
                 const res = await fetch('/api/productos');
                 const result = await res.json();
                 const prod = result.data.find(p => p.id === id);
-                if(!prod) return alert('El ID de producto no existe en BD o está inactivo.');
+                if (!prod) return alert('El ID de producto no existe en BD o está inactivo.');
                 const precio = parseFloat(prod.precio_venta);
                 carritoVenta.push({ producto_id: id, nombre: prod.nombre, precio: precio, cantidad: cant, subtotal: precio * cant });
                 renderCarrito();
-                e.target.reset(); 
+                e.target.reset();
             } catch (error) { alert('Error al contactar al servidor para validar producto.'); }
         });
 
@@ -443,7 +588,7 @@
             try {
                 const res = await fetch(`/api/ventas/${ref}`);
                 const result = await res.json();
-                if(result.success) {
+                if (result.success) {
                     const cab = result.data.cabecera;
                     const det = result.data.detalles;
                     let html = `<div style="text-align:center; border-bottom: 1px solid #ccc; padding-bottom:10px; margin-bottom:10px;">
@@ -460,9 +605,9 @@
                     det.forEach(d => {
                         html += `<tr><td>${d.sku}</td><td>${d.nombre}</td><td>${d.cantidad}</td><td>Q.${parseFloat(d.precio_unitario).toFixed(2)}</td><td>Q.${parseFloat(d.subtotal_linea).toFixed(2)}</td></tr>`;
                     });
-                    
+
                     const porcentajeDescuento = cab.subtotal > 0 ? ((parseFloat(cab.descuento) / parseFloat(cab.subtotal)) * 100).toFixed(0) : 0;
-                    
+
                     // Intentamos inferir la base imponible sobre la que se calculó el IVA (Subtotal - Descuento)
                     const baseImponible = parseFloat(cab.subtotal) - parseFloat(cab.descuento);
                     let porcentajeIva = baseImponible > 0 ? ((parseFloat(cab.impuesto_iva) / baseImponible) * 100).toFixed(0) : 0;
@@ -489,12 +634,12 @@
         async function cargarUltimasFacturas() {
             const container = document.getElementById('tablaUltimasFacturas');
             container.innerHTML = '<p style="font-size:13px; color:#666;">Cargando facturas...</p>';
-            
+
             try {
                 // Consumimos el nuevo endpoint que apunta a la VISTA en la base de datos
                 const res = await fetch(`/api/ventas/recientes`);
                 const result = await res.json();
-                
+
                 if (!result.success) throw new Error(result.error);
                 if (!result.data || result.data.length === 0) {
                     container.innerHTML = '<p style="font-size:13px; color:#e74c3c;">No hay facturas emitidas en los últimos 30 días.</p>';
@@ -503,7 +648,7 @@
 
                 // Tomamos las últimas 8 (la vista ya viene ordenada por fecha desc)
                 const facturas = result.data.slice(0, 8);
-                
+
                 let html = `<table style="font-size: 12.5px;">
                     <thead>
                         <tr>
@@ -516,7 +661,7 @@
                         </tr>
                     </thead>
                     <tbody>`;
-                
+
                 facturas.forEach(f => {
                     const correlativo = f.correlativo || f.id || '-';
                     const fechaRaw = f.fecha_venta || f.fecha || '-';
@@ -524,7 +669,7 @@
                     const cliente = f.cliente_nombre || f.cliente || 'Consumidor Final';
                     const cant = f.cantidad_productos || f.total_articulos || f.items || '-';
                     const total = parseFloat(f.total_venta || f.total || f.monto || 0).toFixed(2);
-                    
+
                     html += `<tr>
                         <td><b style="color:#2c3e50;">${correlativo}</b></td>
                         <td>${fecha}</td>
@@ -536,7 +681,7 @@
                         </td>
                     </tr>`;
                 });
-                
+
                 html += `</tbody></table>`;
                 container.innerHTML = html;
             } catch (error) {
@@ -589,7 +734,7 @@
             const tipo = document.getElementById(`${prefijo}_tipo`).value;
             const id = document.getElementById(`${prefijo}_id`)?.value;
             let payload = {};
-            
+
             if (entidad === 'productos') {
                 payload = { sku: document.getElementById('c_sku').value, nombre: document.getElementById('c_nombre').value, descripcion: document.getElementById('c_desc').value, precio_compra: document.getElementById('c_compra').value, precio_venta: document.getElementById('c_venta').value, stock_actual: document.getElementById('c_stock_act').value, stock_minimo: document.getElementById('c_stock_min').value, categoria_id: document.getElementById('c_cat').value };
             } else if (entidad === 'clientes') {
@@ -621,4 +766,5 @@
         });
     </script>
 </body>
+
 </html>
